@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>CivilMate AI</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f2f4f7;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #111827;
+      color: white;
+      padding: 18px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 26px;
+    }
+
+    header p {
+      color: #cbd5e1;
+      margin-top: 5px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 25px auto;
+      padding: 15px;
+    }
+
+    .subjects {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .subject {
+      border: none;
+      padding: 13px 8px;
+      border-radius: 10px;
+      background: white;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .subject:hover {
+      background: #e5e7eb;
+    }
+
+    .chat {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      min-height: 400px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    }
+
+    #messages {
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      max-width: 85%;
+      line-height: 1.5;
+    }
+
+    .bot {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .user {
+      background: #111827;
+      color: white;
+      margin-left: auto;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 8px;
+    }
+
+    #question {
+      flex: 1;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+    }
+
+    #askBtn {
+      border: none;
+      background: #111827;
+      color: white;
+      padding: 14px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #askBtn:hover {
+      background: #374151;
+    }
+
+    @media (max-width: 650px) {
+      .subjects {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .input-area {
+        flex-direction: column;
+      }
+
+      #askBtn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🏗️ CivilMate AI</h1>
+    <p>AI Assistant for Civil Engineering Students</p>
+  </header>
+
+  <div class="container">
+
+    <div class="subjects">
+      <button class="subject" onclick="selectSubject('Surveying')">
+        📐 Surveying
+      </button>
+
+      <button class="subject" onclick="selectSubject('Engineering Mechanics')">
+        ⚙️ Mechanics
+      </button>
+
+      <button class="subject" onclick="selectSubject('Building Construction')">
+        🏠 Building
+      </button>
+
+      <button class="subject" onclick="selectSubject('Concrete Technology')">
+        🧱 Concrete
+      </button>
+
+      <button class="subject" onclick="selectSubject('Soil Mechanics')">
+        🌍 Soil
+      </button>
+
+      <button class="subject" onclick="selectSubject('Transportation')">
+        🛣️ Roads
+      </button>
+
+      <button class="subject" onclick="selectSubject('Environmental Engineering')">
+        💧 Environment
+      </button>
+
+      <button class="subject" onclick="selectSubject('AutoCAD')">
+        📊 AutoCAD
+      </button>
+    </div>
+
+    <div class="chat">
+
+      <div id="messages">
+
+        <div class="message bot">
+          👋 Hello! I am CivilMate AI.<br><br>
+          Ask me anything about Civil Engineering.
+        </div>
+
+      </div>
+
+      <div class="input-area">
+
+        <input
+          type="text"
+          id="question"
+          placeholder="Ask your Civil Engineering question..."
+          onkeydown="handleEnter(event)"
+        >
+
+        <button id="askBtn" onclick="askQuestion()">
+          ASK AI
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<script>
+
+  let selectedSubject = "General Civil Engineering";
+
+  function selectSubject(subject) {
+
+    selectedSubject = subject;
+
+    addMessage(
+      "📚 Subject selected: " + subject,
+      "bot"
+    );
+
+  }
+
+  function handleEnter(event) {
+
+    if (event.key === "Enter") {
+      askQuestion();
+    }
+
+  }
+
+  function askQuestion() {
+
+    const input = document.getElementById("question");
+
+    const question = input.value.trim();
+
+    if (question === "") {
+      return;
+    }
+
+    addMessage(question, "user");
+
+    input.value = "";
+
+    setTimeout(function() {
+
+      const answer = generateAnswer(question);
+
+      addMessage(answer, "bot");
+
+    }, 500);
+
+  }
+
+  function addMessage(text, type) {
+
+    const messages = document.getElementById("messages");
+
+    const div = document.createElement("div");
+
+    div.className = "message " + type;
+
+    div.innerHTML = text.replace(/\n/g, "<br>");
+
+    messages.appendChild(div);
+
+    messages.scrollTop = messages.scrollHeight;
+
+  }
+
+  function generateAnswer(question) {
+
+    const q = question.toLowerCase();
+
+    if (q.includes("traverse")) {
+
+      return `
+      📐 <b>Traverse Surveying</b><br><br>
+
+      Traverse surveying is a method of surveying in which
+      a series of connected survey lines are measured.<br><br>
+
+      <b>Types:</b><br>
+      1. Open traverse<br>
+      2. Closed traverse<br><br>
+
+      <b>Exam definition:</b><br>
+      A traverse is a series of connected survey lines whose
+      lengths and directions are measured in the field.
+      `;
+
+    }
+
+    if (q.includes("moment")) {
+
+      return `
+      ⚙️ <b>Moment of Force</b><br><br>
+
+      Moment = Force × Perpendicular distance<br><br>
+
+      <b>Formula:</b><br>
+      M = F × d<br><br>
+
+      Example:<br>
+      If F = 100 N and d = 2 m:<br><br>
+
+      M = 100 × 2<br>
+      <b>M = 200 N·m</b>
+      `;
+
+    }
+
+    if (q.includes("concrete")) {
+
+      return `
+      🧱 <b>Concrete</b><br><br>
+
+      Concrete is a composite construction material made mainly
+      from cement, fine aggregate, coarse aggregate and water.<br><br>
+
+      <b>Main properties:</b><br>
+      • Strength<br>
+      • Durability<br>
+      • Workability<br>
+      • Water resistance
+      `;
+
+    }
+
+    if (q.includes("autocad")) {
+
+      return `
+      📊 <b>AutoCAD Basic Commands</b><br><br>
+
+      LINE → L<br>
+      CIRCLE → C<br>
+      OFFSET → O<br>
+      TRIM → TR<br>
+      EXTEND → EX<br>
+      MOVE → M<br>
+      COPY → CO<br>
+      ROTATE → RO<br>
+      MIRROR → MI<br>
+      FILLET → F
+      `;
+
+    }
+
+    return `
+    🤖 <b>CivilMate AI</b><br><br>
+
+    Subject: <b>${selectedSubject}</b><br><br>
+
+    I received your question:<br>
+    "${question}"<br><br>
+
+    This is currently the V1 demo. The next version will
+    connect a real AI model so I can answer Civil Engineering
+    questions dynamically.
+    `;
+
+  }
+
+</script>
+
+</body>
+</html> 
